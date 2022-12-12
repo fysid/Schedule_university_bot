@@ -11,7 +11,6 @@ from gcsa.reminders import PopupReminder
 
 load_dotenv()
 USERNAME = os.getenv('LOGIN')
-print(USERNAME)
 PASSWORD = os.getenv('PASSWORD')
 LOGIN_URL = 'https://e.muiv.ru/login/index.php'
 SCHEDULE_URL = 'https://e.muiv.ru/local/student_timetable/view.php'
@@ -85,7 +84,9 @@ def get_schedule():
                     continue
                 lessons_element = []
                 for i in lesson_data.children:
-                    lessons_element.append(i.string.strip())
+                    if i.string == None:
+                        continue
+                    lessons_element.append(i.string)
                 raw_start_time, raw_end_time = lessons_element[0].split('-')
                 start_time = time_from_string(raw_start_time, date)
                 end_time = time_from_string(raw_end_time, date)
